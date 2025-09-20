@@ -1,3 +1,5 @@
+using System;
+
 namespace Seven.Boundless.Persistence;
 
 public interface IPersistenceData {
@@ -24,14 +26,9 @@ public abstract class PersistenceData<T>(T item) : IPersistenceData<T> where T :
 }
 
 public class ItemPersistenceData<T>(T item) : PersistenceData<T>(item) where T : class, IItem {
-	private readonly ItemKey? DataKey = item.Data?.ItemKey;
+	private readonly ItemKey DataKey = item.Data?.ItemKey ?? throw new ArgumentException("Item must have a Data assigned.", nameof(item));
 
-	protected sealed override T? Instantiate(IItemDataProvider registry) {
-		if (DataKey.HasValue) {
-			return registry.GetData<T>(DataKey.Value)?.Instantiate()
-				?? throw new System.InvalidOperationException($"Could not find Data of type {typeof(T)} with key {DataKey.Value.String}.");
-		}
-
-		return null;
-	}
+	protected sealed override T Instantiate(IItemDataProvider registry) =>
+		registry.GetData<T>(DataKey)?.Instantiate()
+			?? throw new InvalidOperationException($"Could not find Data of type {typeof(T)} with key {DataKey.String}.");
 }
