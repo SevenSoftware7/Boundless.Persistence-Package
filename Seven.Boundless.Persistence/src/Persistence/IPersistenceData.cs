@@ -26,7 +26,7 @@ public abstract class PersistenceData<T>(T item) : IPersistenceData<T> where T :
 }
 
 public class ItemPersistenceData<T>(T item) : PersistenceData<T>(item) where T : class, IItem {
-	private readonly ItemKey DataKey = item.Data?.ItemKey ?? throw new ArgumentException("Item must have a Data assigned.", nameof(item));
+	private readonly ItemKey DataKey = item.ItemData?.ItemKey ?? throw new ArgumentException("Item must have a Data assigned.", nameof(item));
 
 	protected sealed override T Instantiate(IItemDataProvider registry) =>
 		registry.Get<T>(DataKey)?.Instantiate()
