@@ -30,5 +30,5 @@ public class ItemPersistenceData<T>(T item) : PersistenceData<T>(item) where T :
 
 	protected sealed override T Instantiate(IItemDataProvider registry) =>
 		registry.GetData<T>(DataKey)?.Instantiate()
-			?? throw new InvalidOperationException($"Could not find Data of type {typeof(T)} with key {DataKey.String}.");
+			?? throw new InvalidOperationException($"Could not find Data of type {typeof(T)} with key {DataKey.Value}.");
 }
