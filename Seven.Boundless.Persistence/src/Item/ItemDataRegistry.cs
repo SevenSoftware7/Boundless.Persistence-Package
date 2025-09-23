@@ -14,11 +14,11 @@ public class ItemDataRegistry : IItemDataContainer {
 	}
 
 	/// <inheritdoc/>
-	public IItemData? GetData(ItemKey key) => _registry.TryGetValue(key, out IItemData? data) ? data : null;
+	public IItemData? Get(ItemKey key) => _registry.TryGetValue(key, out IItemData? data) ? data : null;
 	/// <inheritdoc/>
-	public IItemData<T>? GetData<T>(ItemKey key) where T : IItem => GetData(key) as IItemData<T>;
+	public IItemData<T>? Get<T>(ItemKey key) where T : IItem => Get(key) as IItemData<T>;
 
-	public bool RegisterData(IItemData data, bool overwrite = false) {
+	public bool Register(IItemData data, bool overwrite = false) {
 		ItemKey? key = data.ItemKey;
 		if (!key.HasValue) {
 			Logger?.Invoke($"Data key is null. {data}");
@@ -37,7 +37,7 @@ public class ItemDataRegistry : IItemDataContainer {
 		return true;
 	}
 
-	public bool UnregisterData(IItemData data) {
+	public bool Unregister(IItemData data) {
 		ItemKey? key = data.ItemKey;
 		if (!key.HasValue) {
 			Logger?.Invoke($"Data key is null. {data}");

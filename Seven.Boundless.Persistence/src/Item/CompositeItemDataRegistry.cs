@@ -21,9 +21,9 @@ public sealed class CompositeItemDataRegistry : IItemDataProvider {
 	}
 
 	/// <inheritdoc/>
-	public IItemData? GetData(ItemKey key) {
+	public IItemData? Get(ItemKey key) {
 		foreach (IItemDataProvider registry in _registries) {
-			IItemData? data = registry.GetData(key);
+			IItemData? data = registry.Get(key);
 			if (data != null) {
 				return data;
 			}
@@ -31,9 +31,9 @@ public sealed class CompositeItemDataRegistry : IItemDataProvider {
 		return null;
 	}
 	/// <inheritdoc/>
-	public IItemData<T>? GetData<T>(ItemKey key) where T : IItem {
+	public IItemData<T>? Get<T>(ItemKey key) where T : IItem {
 		foreach (IItemDataProvider registry in _registries) {
-			IItemData<T>? data = registry.GetData<T>(key);
+			IItemData<T>? data = registry.Get<T>(key);
 			if (data != null) {
 				return data;
 			}
