@@ -13,11 +13,10 @@ public class ItemDataRegistry : IItemDataContainer {
 		Logger = logger;
 	}
 
-
-	public IItemData<T>? GetData<T>(ItemKey key) where T : IItem {
-		IItemData? untypedItem = _registry.TryGetValue(key, out IItemData? data) ? data : null;
-		return untypedItem as IItemData<T>;
-	}
+	/// <inheritdoc/>
+	public IItemData? GetData(ItemKey key) => _registry.TryGetValue(key, out IItemData? data) ? data : null;
+	/// <inheritdoc/>
+	public IItemData<T>? GetData<T>(ItemKey key) where T : IItem => GetData(key) as IItemData<T>;
 
 	public bool RegisterData(IItemData data, bool overwrite = false) {
 		ItemKey? key = data.ItemKey;

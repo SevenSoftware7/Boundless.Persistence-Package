@@ -20,6 +20,17 @@ public sealed class CompositeItemDataRegistry : IItemDataProvider {
 		_registries.Remove(registry);
 	}
 
+	/// <inheritdoc/>
+	public IItemData? GetData(ItemKey key) {
+		foreach (IItemDataProvider registry in _registries) {
+			IItemData? data = registry.GetData(key);
+			if (data != null) {
+				return data;
+			}
+		}
+		return null;
+	}
+	/// <inheritdoc/>
 	public IItemData<T>? GetData<T>(ItemKey key) where T : IItem {
 		foreach (IItemDataProvider registry in _registries) {
 			IItemData<T>? data = registry.GetData<T>(key);
