@@ -7,14 +7,21 @@ using System;
 /// </summary>
 /// <param name="Value"></param>
 [Serializable]
-public readonly record struct ItemKey(IdKey Value) {
+public readonly record struct ItemKey(IdKey Value) : IPersistentValue {
 	/// <inheritdoc/>
-	public ItemKey(string value) : this(new IdKey(value)) { }
-	public static ItemKey? TryParse(string? str) {
-		IdKey? key = IdKey.TryParse(str);
-		if (key is null) return null;
-		return new ItemKey(key.Value);
-	}
+	public ItemKey(string value) : this(IdKey.Create(value)) { }
+
+	/// <inheritdoc cref="IdKey.Create(string)"/>
+	public static IdKey Create(string @string) => IdKey.Create(@string);
+	/// <inheritdoc cref="IdKey.TryCreate(string)"/>
+	public static IdKey? TryCreate(string? @string) => IdKey.TryCreate(@string);
+	/// <inheritdoc cref="IdKey.IsValid(string?)"/>
+	public static IdKey Random() => IdKey.Random();
+	/// <inheritdoc cref="IdKey.CreateOrDefault(string?, IdKey)"/>
+	public static IdKey CreateOrDefault(string? @string, IdKey defaultKey) => IdKey.CreateOrDefault(@string, defaultKey);
+	/// <inheritdoc cref="IdKey.CreateOrRandom(string?)"/>
+	public static IdKey CreateOrRandom(string? @string) => IdKey.CreateOrRandom(@string);
+
 
 	/// <inheritdoc/>
 	public override string ToString() => Value.ToString();
