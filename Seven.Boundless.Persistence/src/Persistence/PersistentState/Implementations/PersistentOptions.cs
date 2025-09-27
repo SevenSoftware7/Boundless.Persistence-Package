@@ -9,14 +9,11 @@ using Seven.Boundless.Persistence;
 /// <summary>
 /// A persistence state that can take on one of a predefined set of options. Acts like a 'dropdown' selector.
 /// </summary>
-/// <param name="name">The name of the underlying choice.</param>
 /// <param name="options">The available options for the state.</param>
 /// <param name="defaultValue">The default value; will be used as the initial value and fallback if an invalid value is deserialized.</param>
-public sealed class PersistentOptions(string? name, IDictionary<PersistentOptions.Value, string> options, PersistentOptions.Value? defaultValue = null) : PersistentState, IOrderedEnumerable<KeyValuePair<PersistentOptions.Value, string>> {
+public sealed class PersistentOptions(IDictionary<PersistentOptions.Value, string> options, PersistentOptions.Value? defaultValue = null) : PersistentState, IOrderedEnumerable<KeyValuePair<PersistentOptions.Value, string>> {
 	/// <inheritdoc/>
 	public event Action<Value>? OnUpdate;
-	/// <inheritdoc/>
-	public override string? DisplayName => name;
 
 	/// <summary>
 	/// The available options for the state.
@@ -59,7 +56,6 @@ public sealed class PersistentOptions(string? name, IDictionary<PersistentOption
 	protected override void Dispose(bool disposing) {
 		if (disposing) {
 			OnUpdate = null;
-			name = null;
 			Options.Clear();
 		}
 		base.Dispose(disposing);

@@ -5,15 +5,12 @@ using System;
 /// <summary>
 /// A persistence state representing a decimal value within a specified range.
 /// </summary>
-/// <param name="name">The name of the persistence state.</param>
 /// <param name="min">The minimum value of the range.</param>
 /// <param name="max">The maximum value of the range.</param>
 /// <param name="defaultValue">The default value of the range; will be used as the initial value and fallback if an invalid value is deserialized.</param>
-public sealed class PersistentDecimal(string? name, decimal min, decimal max, decimal defaultValue) : PersistentState {
+public sealed class PersistentDecimal(decimal min, decimal max, decimal defaultValue) : PersistentState {
 	/// <inheritdoc/>
 	public event Action<Value>? OnUpdate;
-	/// <inheritdoc/>
-	public override string? DisplayName { get; } = name;
 
 	private Value _value = defaultValue;
 

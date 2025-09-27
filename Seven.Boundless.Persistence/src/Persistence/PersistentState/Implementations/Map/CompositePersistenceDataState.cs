@@ -9,13 +9,10 @@ using System.Linq;
 /// A <see cref="PersistentMap"/> that combines multiple other <see cref="PersistentMap"/> instances.
 /// It checks each contained state in order for keys, allowing for a layered approach to persistence.
 /// </summary>
-/// <param name="name">The name of the composite state, see <see cref="PersistentState.DisplayName"/>.</param>
 /// <param name="dataStates">The child states to combine.</param>
-public sealed class CompositePersistentMap(string? name, params PersistentMap[] dataStates) : PersistentMap {
+public sealed class CompositePersistentMap(params PersistentMap[] dataStates) : PersistentMap {
 	/// <inheritdoc/>
 	public event Action<object[]?>? OnUpdate;
-	/// <inheritdoc/>
-	public override string? DisplayName { get; } = name;
 
 	private int FirstContainsKey(IdKey key) {
 		for (int i = 0; i < dataStates.Length; i++) {

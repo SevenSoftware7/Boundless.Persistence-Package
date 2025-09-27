@@ -5,13 +5,9 @@ namespace Seven.Boundless.Persistence;
 /// <summary>
 /// A <see cref="PersistentState"/> implementation for items, which persists the item's key and additional state.
 /// </summary>
-/// <param name="name">The name of the item.</param>
 /// <param name="item">The item to persist.</param>
 /// <param name="persistence">The persistence state of the item.</param>
-public class PersistentItem(string? name, IItem item, PersistentState persistence) : PersistentState {
-	/// <inheritdoc/>
-	public override string? DisplayName { get; } = name;
-
+public class PersistentItem(IItem item, PersistentState persistence) : PersistentState {
 	/// <summary>
 	/// The item being persisted.
 	/// </summary>

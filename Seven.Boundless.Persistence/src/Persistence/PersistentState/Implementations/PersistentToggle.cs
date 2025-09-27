@@ -6,12 +6,9 @@ using Seven.Boundless.Persistence;
 /// <summary>
 /// A persistence state representing a toggle (on/off) value.
 /// </summary>
-/// <param name="name">The name of the toggle.</param>
-public sealed class PersistentToggle(string? name) : PersistentState {
+public sealed class PersistentToggle : PersistentState {
 	/// <inheritdoc/>
 	public event Action<bool>? OnUpdate;
-	/// <inheritdoc/>
-	public override string? DisplayName { get; } = name;
 
 	private Value _value = Value.False;
 

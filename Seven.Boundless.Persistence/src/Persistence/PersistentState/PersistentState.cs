@@ -9,11 +9,6 @@ namespace Seven.Boundless;
 /// </summary>
 public abstract class PersistentState : IDisposable {
 	/// <summary>
-	/// An optional display name for the state. If null, the state will not be displayed.
-	/// </summary>
-	public virtual string? DisplayName { get; } = null;
-
-	/// <summary>
 	/// Applies the given <see cref="IPersistentValue"/> to this state.
 	/// The exact behavior of this method depends on the implementation, but in general it should update the state to reflect the given value.
 	/// Implementations should handle invalid or incompatible values gracefully, either by ignoring them or throwing an exception.
