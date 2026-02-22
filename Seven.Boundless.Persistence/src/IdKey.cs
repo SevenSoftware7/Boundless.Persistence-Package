@@ -1,6 +1,7 @@
 namespace Seven.Boundless.Persistence;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
@@ -9,6 +10,8 @@ using System.Diagnostics.CodeAnalysis;
 /// </summary>
 [Serializable]
 public readonly partial record struct IdKey {
+	// private static readonly Dictionary<int, string> CachedStringRepresentations = [];
+
 	[System.Text.RegularExpressions.GeneratedRegex(@"[^a-z0-9\-_=\|!\?#~]")]
 	private static partial System.Text.RegularExpressions.Regex SanitizeIdKeyRegex();
 
@@ -29,9 +32,27 @@ public readonly partial record struct IdKey {
 	/// The string representation of the IdKey.
 	/// </summary>
 	public readonly string String;
+	/// <summary>
+	/// The hash value of the IdKey.
+	/// </summary>
+	public readonly int HashCode;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="IdKey"/> struct with the specified string.
+	/// </summary>
 	private IdKey(string @string) {
 		String = SanitizeKey(@string);
+		HashCode = String.GetHashCode(StringComparison.OrdinalIgnoreCase);
+		// CachedStringRepresentations[HashCode] = String;
+	}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="IdKey"/> struct with the specified hash code.
+	/// </summary>
+	/// <param name="hash">The hash code of the IdKey.</param>
+	public IdKey(int hash) {
+		HashCode = hash;
+		String = hash.ToString();
+		// String = CachedStringRepresentations.GetValueOrDefault(hash) ?? hash.ToString();
 	}
 
 	/// <summary>
@@ -79,10 +100,4 @@ public readonly partial record struct IdKey {
 
 	/// <inheritdoc/>
 	public override string ToString() => $"\"{String}\"";
-
-	/// <summary>
-	/// Implicitly converts an <see cref="IdKey"/> to its string representation, by fetching the underlying string representation.
-	/// </summary>
-	/// <param name="key">The key to convert.</param>
-	public static implicit operator string(IdKey key) => key.String;
 }

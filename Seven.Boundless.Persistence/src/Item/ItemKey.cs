@@ -8,8 +8,14 @@ using System;
 /// <param name="Value"></param>
 [Serializable]
 public readonly record struct ItemKey(IdKey Value) : IPersistentValue {
-	/// <inheritdoc/>
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ItemKey"/> struct with the specified string.
+	/// </summary>
 	public ItemKey(string value) : this(IdKey.Create(value)) { }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ItemKey"/> struct with the specified hash code.
+	/// </summary>
+	public ItemKey(int hash) : this(new IdKey(hash)) { }
 
 	/// <inheritdoc cref="IdKey.Create(string)"/>
 	public static IdKey Create(string @string) => IdKey.Create(@string);
@@ -30,6 +36,4 @@ public readonly record struct ItemKey(IdKey Value) : IPersistentValue {
 	public static implicit operator IdKey(ItemKey key) => key.Value;
 	/// <inheritdoc/>
 	public static implicit operator ItemKey(IdKey key) => new(key);
-	/// <inheritdoc/>
-	public static implicit operator string(ItemKey key) => key.Value;
 }
